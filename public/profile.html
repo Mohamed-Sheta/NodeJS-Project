@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    p {
+      font-size: 1.1em;
+      color: #444;
+      margin: 10px 0;
+    }
+
+    span {
+      font-weight: bold;
+      color: #4CAF50;
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <h1>User Profile</h1>
+
+  <p>Username: <span id="username"></span></p>
+  <p>Email: <span id="email"></span></p>
+
+  <form action="/logout" method="POST">
+    <button type="submit">Logout</button>
+  </form>
+
+  <script>
+    const responseAPI = async () => {
+      try {
+        let res = await fetch('/check-session');
+        const data = await res.json();
+        if (data.username && data.email) {
+          document.getElementById('username').textContent = data.username;
+          document.getElementById('email').textContent = data.email;
+        } else {
+          window.location.href = '/';
+        }
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+        window.location.href = '/';
+      }
+    };
+    document.addEventListener('DOMContentLoaded', responseAPI);
+  </script>
+</body>
+</html>
